@@ -14,3 +14,13 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+nav div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+nav div .ml-auto {
+  margin-left: auto;
+}
