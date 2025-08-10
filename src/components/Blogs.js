@@ -11,7 +11,9 @@ import {
 
 import { toast } from "sonner";
 
-import { ThumbsUp, ThumbsDown } from "lucide-react";
+// import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { FaRegThumbsUp,FaRegThumbsDown } from "react-icons/fa";
+
 import { db } from "./firebase";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -187,7 +189,7 @@ export default function Blog() {
                   >
                     <span className="mr-1">
                       {" "}
-                      <ThumbsUp size={18} />
+                      <FaRegThumbsUp size={18} />
                     </span>{" "}
                     {post.likes || 0}
                   </button>
@@ -201,7 +203,7 @@ export default function Blog() {
                   >
                     <span className="mr-1">
                       {" "}
-                      <ThumbsDown size={18} />
+                      <FaRegThumbsDown size={18} />
                     </span>{" "}
                     {post.dislikes || 0}
                   </button>
