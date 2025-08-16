@@ -11,8 +11,7 @@ import {
 
 import { toast } from "sonner";
 
-// import { ThumbsUp, ThumbsDown } from "lucide-react";
-import { FaRegThumbsUp,FaRegThumbsDown } from "react-icons/fa";
+import { FaRegThumbsUp, FaRegThumbsDown } from "react-icons/fa";
 
 import { db } from "./firebase";
 import ReactMarkdown from "react-markdown";
@@ -52,26 +51,7 @@ export default function Blog() {
     fetchPosts();
   }, []);
 
-  // handle votes
-  // const handleVote = async (postId, type) => {
-
-  //   try {
-  //     const postRef = doc(db, "posts", postId);
-  //     await updateDoc(postRef, {
-  //       [type]: increment(1),
-  //     });
-
-  //     setPosts(
-  //       posts.map((post) =>
-  //         post.id === postId ? { ...post, [type]: (post[type] || 0) + 1 } : post
-  //       )
-  //     );
-  //   } catch (error) {
-  //     console.error("Error updating vote:", error);
-  //   }
-  // };
-
-  // src/components/Blog.js
+  //   voting logic
   const handleVote = async (postId, type) => {
     // Get user's votes from localStorage
     const userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
@@ -88,24 +68,25 @@ export default function Blog() {
         duration: 5000,
       });
     } else {
-      // Remove previous vote (if any)
+      // Remove previous vote (if any) and add new vote
       if (userVotes[postId]) {
+        // User is switching from one vote type to another
         await updateDoc(doc(db, "posts", postId), {
           [userVotes[postId]]: increment(-1), // Subtract previous vote
         });
-
-        await updateDoc(doc(db, "posts", postId), { [type]: increment(1) });
-        userVotes[postId] = type;
-        toast.success(
-          `You ${type === "likes" ? "liked" : "disliked"} this post!`
-        );
       }
 
       // Add new vote
       await updateDoc(doc(db, "posts", postId), {
-        [type]: increment(1), // Add 1
+        [type]: increment(1), // Add 1 for new vote
       });
+
       userVotes[postId] = type; // Store the new vote
+
+      toast.success(
+        `You ${type === "likes" ? "liked" : "disliked"} this post!`,
+        { duration: 5000 }
+      );
     }
 
     // Update localStorage and refresh UI

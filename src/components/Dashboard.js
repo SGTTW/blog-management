@@ -9,7 +9,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
- } from "firebase/firestore";
+} from "firebase/firestore";
 
 function Dashboard() {
   const [posts, setPosts] = useState([]);
@@ -53,6 +53,13 @@ function Dashboard() {
     setError("");
 
     try {
+      // only update image if one is selected, otherwise keep existing imageUrl
+
+      let finalImageUrl = imageUrl;
+      if (image) {
+        finalImageUrl = await uploadImage();
+      }
+
       const postData = {
         title,
         content,
@@ -92,7 +99,6 @@ function Dashboard() {
       }
     }
   }
-  
 
   function handleEdit(post) {
     setTitle(post.title);
